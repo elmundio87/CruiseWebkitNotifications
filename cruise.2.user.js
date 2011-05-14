@@ -35,7 +35,7 @@ tabs.appendChild(notificationSettingsLI); //append new div to another div
 var settingsBox =document.createElement("div"); 
 settingsBox.style.backgroundColor = '#333';
 settingsBox.style.height="300px";
-settingsBox.style.width="500px";
+settingsBox.style.width="570px";
 settingsBox.style.position="absolute";
 settingsBox.style.top="100px";
 settingsBox.style.left="100px";
@@ -43,35 +43,68 @@ settingsBox.id = "settingsBox"
 
 document.body.appendChild(settingsBox);
 
-var allowNotifications =document.createElement("a");
-allowNotifications.appendChild(document.createTextNode("Allow Notifications"))
-allowNotifications.onclick= function requestPermission() {window.webkitNotifications.requestPermission();};
-settingsBox.appendChild(allowNotifications);
-settingsBox.style.display="none";
-
-var closeButton =document.createElement("a");
-closeButton.appendChild(document.createTextNode("Close"))
-closeButton.onclick= function hideSettings() {settingsBox.style.display='none';};
-settingsBox.appendChild(closeButton);
-
 var watchList =document.createElement("SELECT");
 watchList.multiple="multiple";
 watchList.size=5;
 watchList.id = "watchlist";
+watchList.style.position="absolute";
+watchList.style.height="240px";
+watchList.style.width="260px";
+watchList.style.top="10px";
+watchList.style.left="10px";
 settingsBox.appendChild(watchList);
+
+var allowNotifications =document.createElement("a");
+allowNotifications.appendChild(document.createTextNode("Allow Notifications"))
+allowNotifications.onclick= function requestPermission() {window.webkitNotifications.requestPermission();};
+
+allowNotifications.style.position="absolute";
+allowNotifications.style.right="10px";
+allowNotifications.style.bottom="10px";
+allowNotifications.style.color="#FFF";
+allowNotifications.style.fontSize="18px";
+allowNotifications.style.textDecoration="underline";
+settingsBox.appendChild(allowNotifications);
+settingsBox.style.display="none";
+
+var closeButton =document.createElement("a");
+closeButton.appendChild(document.createTextNode("[X]"))
+closeButton.onclick= function hideSettings() {settingsBox.style.display='none';};
+closeButton.style.position="absolute";
+closeButton.style.top="10px";
+closeButton.style.right="10px";
+closeButton.style.color="#FFF";
+closeButton.style.fontSize="18px";
+settingsBox.appendChild(closeButton);
+
+
 
 var addButton =document.createElement("BUTTON");
 addButton.appendChild(document.createTextNode("Add"))
 addButton.onclick= function a() {addToDB()};
+addButton.style.position="absolute";
+addButton.style.height="25px";
+addButton.style.width="60px";
+addButton.style.top="40px";
+addButton.style.left="280px";
 settingsBox.appendChild(addButton);
 
 var removeButton =document.createElement("BUTTON");
-removeButton.appendChild(document.createTextNode("Remove"));
+removeButton.appendChild(document.createTextNode("Remove Selected"));
 removeButton.onclick= function a(){removeOption()};
+removeButton.style.height="25px";
+removeButton.style.width="260px";
+removeButton.style.top="260px";
+removeButton.style.left="10px";
 settingsBox.appendChild(removeButton);
 
 var inputPipelineName =document.createElement("SELECT");
 inputPipelineName.id = "inputPipelineName";
+inputPipelineName.style.position="absolute";
+inputPipelineName.style.width="250px";
+inputPipelineName.style.top="10px";
+inputPipelineName.style.left="280px";
+
 
 settingsBox.appendChild(inputPipelineName);
 
@@ -252,40 +285,4 @@ db.transaction(function (tx) {
   });
 });
 
-
-
-
-/* MANUALLY INSERT WARNINGLIST ENTRIES */
-
-//warningList.push(new PipelineWatcher('CT2-main'));
-//warningList.push(new PipelineWatcher('CT2-main-smoke'));
-
-
-
-/*warning('CT2-main');
-warning('CT2-main-smoke');
-warning('CT2-main-Blades-UTs');
-warning('CT2-main-Blades-ATs');
-warning('CT2-main-Blades-ITs');
-warning('CT2-main-validate-XML');
-warning('CT2-main-TomcatSecurity');
-warning('CT2-main-GridLibrary-General');
-warning('CT2-main-GridLibrary-Expandable');
-warning('CT2-main-GridLibrary-MultiSelect');
-warning('CT2-main-GridLibrary-SingleSelect');
-warning('CT2-main-Component-AT');
-warning('CT2-main-Trading-AT');
-warning('CT2-main-i18n-ATs');
-warning('CT2-main-sdk');
-warning('CT2-main-doc');
-warning('CT2-main-PAT');
-warning('CT2-main-ITs-IE6');
-warning('CT2-main-ITs-IE7');
-warning('CT2-main-ITs-IE8');
-warning('CT2-main-ITs-FF3-5');
-warning('CT2-main-ITs-FF4');
-warning('CT2-main-deployment');
-warning('CT2-main-QualityGate');
-warning('CT2-main-libraries-thirdparty');
-warning('CT2-main-server'); */
 
