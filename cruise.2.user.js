@@ -70,11 +70,19 @@ removeButton.appendChild(document.createTextNode("Remove"));
 removeButton.onclick= function a(){removeOption()};
 settingsBox.appendChild(removeButton);
 
-var inputPipelineName =document.createElement("input");
+var inputPipelineName =document.createElement("SELECT");
 inputPipelineName.id = "inputPipelineName";
-inputPipelineName.appendChild(document.createTextNode("CT2-main"));
 
 settingsBox.appendChild(inputPipelineName);
+
+var all = document.getElementsByClassName("pipeline")
+
+    for(var i=0; i<all.length;i++ )
+    { 
+        var opt = document.createElement("option");
+		opt.text = all[i].id.replace("pipeline_","").replace("_panel","");
+		document.getElementById("inputPipelineName").options.add(opt);
+    } 
 
 function requestPermission() {
   window.webkitNotifications.requestPermission();
