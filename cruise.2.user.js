@@ -39,7 +39,7 @@ notificationSettingsLI.onclick= function(){settingsBox.style.display='inline';};
 
 tabs.appendChild(notificationSettingsLI); //append new div to another div
 
-var settingsBox =document.createElement("div");
+var settingsBox =document.createElement("div"); 
 settingsBox.style.backgroundColor = '#333';
 settingsBox.style.height="300px";
 settingsBox.style.width="500px";
@@ -69,38 +69,36 @@ settingsBox.appendChild(watchList);
 
 var addButton =document.createElement("BUTTON");
 addButton.appendChild(document.createTextNode("Add"))
-addButton.onclick= function hideSettings() {settingsBox.style.display='none';};
+addButton.onclick= function a() {addToSettingsWatchlist(document.getElementById("inputPipelineName").value)};
 settingsBox.appendChild(addButton);
 
 var removeButton =document.createElement("BUTTON");
-removeButton.appendChild(document.createTextNode("Remove"))
-removeButton.onclick= function removeOptions(){var i
-;
-for(i=watchList.options.length-1;i>=0;i--)
-{
-if(watchList.options[i].selected)
-{
-watchList.remove(i);
-removeByElement(notifications,watchList.options[i].text);
-removeByElement(warningList,watchList.options[i].text);
-}
-};
-}
+removeButton.appendChild(document.createTextNode("Remove"));
+removeButton.onclick= function a(){removeOption()};
 settingsBox.appendChild(removeButton);
 
-var inputPiplelineName =document.createElement("input");
-inputPiplelineName.appendChild(document.createTextNode("CT2-main"))
+var inputPipelineName =document.createElement("input");
+inputPipelineName.id = "inputPipelineName";
+inputPipelineName.appendChild(document.createTextNode("CT2-main"));
 
-settingsBox.appendChild(inputPiplelineName);
+settingsBox.appendChild(inputPipelineName);
 
 function requestPermission() {
   window.webkitNotifications.requestPermission();
 }
 
-
-
-/*========================================================*/
-
+function removeOption(){var i
+;
+for(i=watchList.options.length-1;i>=0;i--)
+{
+if(watchList.options[i].selected)
+{
+	watchList.remove(i);
+	removeByElement(notifications,watchList.options[i].text);
+	removeByElement(warningList,watchList.options[i].text);
+}
+};
+}
 
 
 /* SET UP THE FUNCTIONALITY */
