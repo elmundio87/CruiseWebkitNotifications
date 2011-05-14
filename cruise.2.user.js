@@ -16,14 +16,6 @@ db.transaction(function (tx) {
   tx.executeSql('CREATE TABLE watchList (watchitem)');
 });
 
-db.transaction(function (tx) {
-  tx.executeSql('DELETE FROM watchList');
-});
-
-db.transaction(function (tx) {
-  tx.executeSql('INSERT INTO watchList(watchitem) VALUES("CT2-main-Blades-UTs")');
-    tx.executeSql('INSERT INTO watchList(watchitem) VALUES("CT2-main-ITs-IE6")');
-});
 
 
 /* SET UP THE SETTINGS UI */
@@ -69,7 +61,7 @@ settingsBox.appendChild(watchList);
 
 var addButton =document.createElement("BUTTON");
 addButton.appendChild(document.createTextNode("Add"))
-addButton.onclick= function a() {addToSettingsWatchlist(document.getElementById("inputPipelineName").value)};
+addButton.onclick= function a() {addToDB()};
 settingsBox.appendChild(addButton);
 
 var removeButton =document.createElement("BUTTON");
@@ -87,8 +79,13 @@ function requestPermission() {
   window.webkitNotifications.requestPermission();
 }
 
-function removeOption(){var i
-;
+function removeOption(){
+debugger;
+var pipelineName = document.getElementById("inputPipelineName").value;
+
+
+
+var i;
 for(i=watchList.options.length-1;i>=0;i--)
 {
 if(watchList.options[i].selected)
@@ -96,10 +93,26 @@ if(watchList.options[i].selected)
 	watchList.remove(i);
 	removeByElement(notifications,watchList.options[i].text);
 	removeByElement(warningList,watchList.options[i].text);
+	db.transaction(function (tx) {
+		tx.executeSql('DELETE FROM watchList WHERE watchitem = "'+watchList.options[i].text+'")');
+	});
 }
 };
+
+
 }
 
+
+function addToDB(){
+var pipelineName = document.getElementById("inputPipelineName").value;
+addToSettingsWatchlist(pipelineName);
+
+
+db.transaction(function (tx) {
+  tx.executeSql('INSERT INTO watchList(watchitem) VALUES("'+pipelineName+'")');
+});
+
+}
 
 /* SET UP THE FUNCTIONALITY */
 
