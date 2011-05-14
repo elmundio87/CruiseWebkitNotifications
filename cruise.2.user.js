@@ -93,19 +93,27 @@ var i;
 for(i=watchList.options.length-1;i>=0;i--)
 {
 
-	
-if(watchList.options[i].selected)
-{
-	removeByElement(notifications,watchList.options[i].text);
-	removeByElement(warningList,watchList.options[i].text);
+	if(watchList.options[i].selected)
+	{
+		removeByElement(notifications,watchList.options[i].text);
+		killWarningListItem(watchList.options[i].text);
+		removeByElement(warningList,watchList.options[i].text);
 
-	watchList.remove(i);
-}
+		watchList.remove(i);
+	}
 };
 
 
 }
 
+function killWarningListItem(ID)
+ {
+    for(var i=0; i<warningList.length;i++ )
+     { 
+        if(warningList[i].ID==ID)
+            warningList[i].active = 0;
+      } 
+  }
 
 function addToDB(){
 var pipelineName = document.getElementById("inputPipelineName").value;
@@ -138,9 +146,12 @@ function addToSettingsWatchlist(pipelineName)
 function PipelineWatcher(pipelineName)
 {
 		var counter = 0;
-		var active = 1;
-				
-		function warning(pipelineName){
+
+		this.ID = pipelineName;
+
+		this.active = 1;
+
+		function warning(pipelineName, thiss){
 			
 			failed = 0;
 			
@@ -165,17 +176,18 @@ function PipelineWatcher(pipelineName)
 			
 			counter++;
 			
-			if(active == 1)
+			if(thiss.active == 1)
 			{
-				self.setTimeout(function(){warning(pipelineName)},1000);
+				self.setTimeout(function(){warning(pipelineName,thiss)},1000);
 			}
+			else
+			{
+				failed = 0;
+			}
+			
 		}
 	
-		function kill()
-		{
-			active = 0;
-		}
-		warning(pipelineName);
+		warning(pipelineName, this);
 
 		
 	
