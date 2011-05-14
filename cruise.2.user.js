@@ -6,6 +6,8 @@
 // @author         Elmundio87
 // @include        http://cruise.caplin.com:8153*
 // @include        http://cruise:8153*
+// @include        http://www.elmundio.net/projects/CruiseWebkitNotifications/*
+
 // ==/UserScript==
 
 
@@ -160,15 +162,15 @@ function PipelineWatcher(pipelineName)
 				removeByElement(notifications,pipelineID);
 			}
 			
-			
+			counter++;
 			self.setTimeout(function(){warning(pipelineName)},1000);
 			
 		}
 	
-	if(contains(warningList, pipelineName))
-	{
+	//if(contains(warningList, pipelineName))
+	//{
 		warning(pipelineName);
-	}
+	//}
 	
 	
 }
@@ -227,6 +229,9 @@ db.transaction(function (tx) {
 
 warningList.push(new PipelineWatcher('CT2-main'));
 warningList.push(new PipelineWatcher('CT2-main-smoke'));
+
+
+
 /*warning('CT2-main');
 warning('CT2-main-smoke');
 warning('CT2-main-Blades-UTs');
