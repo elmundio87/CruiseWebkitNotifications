@@ -17,7 +17,6 @@ db.transaction(function (tx) {
 });
 
 
-
 /* SET UP THE SETTINGS UI */
 var tabs = document.getElementsByClassName("tabs")[0];
 
@@ -82,20 +81,23 @@ function requestPermission() {
 function removeOption(){
 debugger;
 var pipelineName = document.getElementById("inputPipelineName").value;
+var SQL = 'DELETE FROM watchList WHERE watchitem = "' + watchList.options[watchList.selectedIndex].text + '";'
 
-
+	db.transaction(function (tx) {
+		tx.executeSql(SQL);
+	});
 
 var i;
 for(i=watchList.options.length-1;i>=0;i--)
 {
+
+	
 if(watchList.options[i].selected)
 {
-	watchList.remove(i);
 	removeByElement(notifications,watchList.options[i].text);
 	removeByElement(warningList,watchList.options[i].text);
-	db.transaction(function (tx) {
-		tx.executeSql('DELETE FROM watchList WHERE watchitem = "'+watchList.options[i].text+'")');
-	});
+
+	watchList.remove(i);
 }
 };
 
@@ -133,36 +135,35 @@ function addToSettingsWatchlist(pipelineName)
 function PipelineWatcher(pipelineName)
 {
 		var counter = 0;
-		
 		addToSettingsWatchlist(pipelineName)
-		
-		
+				
 		function warning(pipelineName){
-		failed = 0;
-		
-		var pipelineID = 'pipeline_' + pipelineName	+ '_panel';
-		var latest_stage = document.getElementById(pipelineID).getElementsByClassName('latest_stage')[0].innerHTML;
-		if(latest_stage.indexOf('Failed',0) > -1)
-		{
-			failed = 1;
-			if(contains(notifications,pipelineID) == false)
+			
+			failed = 0;
+			
+			var pipelineID = 'pipeline_' + pipelineName	+ '_panel';
+			var latest_stage = document.getElementById(pipelineID).getElementsByClassName('latest_stage')[0].innerHTML;
+			if(latest_stage.indexOf('Failed',0) > -1)
 			{
-				if(counter > 0)
+				failed = 1;
+				if(contains(notifications,pipelineID) == false)
 				{
-					window.webkitNotifications.createNotification('http://cruise.caplin.com:8153/go/images/g9/logo_go.png', pipelineName, latest_stage).show();
+					if(counter > 0)
+					{
+						window.webkitNotifications.createNotification('http://cruise.caplin.com:8153/go/images/g9/logo_go.png', pipelineName, latest_stage).show();
+					}
+					notifications.push(pipelineID);
 				}
-				notifications.push(pipelineID);
 			}
+			else
+			{
+				removeByElement(notifications,pipelineID);
+			}
+			
+			
+			self.setTimeout(function(){warning(pipelineName)},1000);
+			
 		}
-		else
-		{
-			removeByElement(notifications,pipelineID);
-		}
-		
-		
-		self.setTimeout(function(){warning(pipelineName)},1000);
-		
-	}
 	
 	if(contains(warningList, pipelineName))
 	{
