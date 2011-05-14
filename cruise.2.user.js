@@ -116,6 +116,7 @@ db.transaction(function (tx) {
   tx.executeSql('INSERT INTO watchList(watchitem) VALUES("'+pipelineName+'")');
 });
 
+warningList.push(new PipelineWatcher(pipelineName));
 }
 
 /* SET UP THE FUNCTIONALITY */
@@ -137,7 +138,7 @@ function addToSettingsWatchlist(pipelineName)
 function PipelineWatcher(pipelineName)
 {
 		var counter = 0;
-		addToSettingsWatchlist(pipelineName)
+		var active = 1;
 				
 		function warning(pipelineName){
 			
@@ -163,15 +164,20 @@ function PipelineWatcher(pipelineName)
 			}
 			
 			counter++;
-			self.setTimeout(function(){warning(pipelineName)},1000);
 			
+			if(active == 1)
+			{
+				self.setTimeout(function(){warning(pipelineName)},1000);
+			}
 		}
 	
-	//if(contains(warningList, pipelineName))
-	//{
+		function kill()
+		{
+			active = 0;
+		}
 		warning(pipelineName);
-	//}
-	
+
+		
 	
 }
 
@@ -221,14 +227,18 @@ db.transaction(function (tx) {
   var len = results.rows.length, i;
   for (i = 0; i < len; i++) {
  	addToSettingsWatchlist(results.rows.item(i).watchitem)
+	warningList.push(new PipelineWatcher(results.rows.item(i).watchitem));
   }
   });
 });
 
+
+
+
 /* MANUALLY INSERT WARNINGLIST ENTRIES */
 
-warningList.push(new PipelineWatcher('CT2-main'));
-warningList.push(new PipelineWatcher('CT2-main-smoke'));
+//warningList.push(new PipelineWatcher('CT2-main'));
+//warningList.push(new PipelineWatcher('CT2-main-smoke'));
 
 
 
