@@ -205,7 +205,7 @@ function PipelineWatcher(pipelineName)
 				{
 					if(counter > 0)
 					{
-						window.webkitNotifications.createNotification('http://cruise.caplin.com:8153/go/images/g9/logo_go.png', pipelineName, latest_stage).show();
+						window.webkitNotifications.createNotification('http://cruise.caplin.com:8153/go/images/g9/icons/icon_warning_16.png', pipelineName, latest_stage).show();
 					}
 					notifications.push(pipelineID);
 				}
