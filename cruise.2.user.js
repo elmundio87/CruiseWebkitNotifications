@@ -4,9 +4,7 @@
 // @description    Checks the state of a pipeline and warns you if it fails. You must manually enable desktop notifications.
 // @version        1
 // @author         Elmundio87
-// @include        http://cruise.caplin.com:8153*
-// @include        http://cruise:8153*
-// @include        http://www.elmundio.net/projects/CruiseWebkitNotifications/*
+// @include        http://your.cruise.url:port/*
 
 // ==/UserScript==
 
